@@ -1,0 +1,1071 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Star Race English Class</title>
+  <meta name="theme-color" content="#58cc02">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;650;750;850;900&display=swap');
+
+    :root{
+      --green:#58cc02;
+      --green-dark:#45a500;
+      --blue:#1cb0f6;
+      --blue-dark:#0a84c6;
+      --gold:#ffc800;
+      --orange:#ff9600;
+      --red:#ff4b4b;
+      --purple:#ce82ff;
+      --ink:#243042;
+      --muted:#64748b;
+      --line:#dbe7f4;
+      --card:#ffffff;
+      --bg:#eef7ff;
+      --shadow:0 14px 30px rgba(31,42,68,.10);
+      --shadow-soft:0 8px 18px rgba(31,42,68,.08);
+      --radius:18px;
+      --asset-star-full:url("Assets/star-full.svg");
+      --asset-star-empty:url("Assets/star-empty.svg");
+      --asset-chest-closed:url("Assets/chest-closed.svg");
+      --asset-chest-open:url("Assets/chest-open.svg");
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      color:var(--ink);
+      background:#f4f8fc;
+      overflow-x:hidden;
+    }
+
+    button,input,select,textarea{font:inherit}
+    button{border:0;cursor:pointer}
+    .app{min-height:100vh;padding:16px;max-width:1280px;margin:0 auto}
+    .shell{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;align-items:start}
+    .main{min-width:0}
+    .panel{
+      background:rgba(255,255,255,.88);
+      backdrop-filter:blur(12px);
+      border:1px solid rgba(219,231,244,.85);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:14px 16px;
+      margin-bottom:16px;
+    }
+    .brand{display:flex;align-items:center;gap:14px;min-width:0}
+    .brand-mark{
+      width:48px;height:48px;border-radius:16px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,#58cc02,#1cb0f6);
+      box-shadow:0 12px 22px rgba(28,176,246,.22);
+      position:relative;
+      overflow:hidden;
+    }
+    .brand-mark:before{
+      content:"";
+      width:28px;height:28px;
+      background:var(--asset-star-full) center/contain no-repeat;
+      filter:drop-shadow(0 4px 4px rgba(0,0,0,.15));
+    }
+    .brand h1{font-size:22px;line-height:1;margin:0;font-weight:900;letter-spacing:0}
+    .brand p{margin:5px 0 0;color:var(--muted);font-weight:750;font-size:13px}
+    .top-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    a.pill{text-decoration:none}
+    .pill{
+      min-height:44px;
+      padding:0 14px;
+      border-radius:14px;
+      background:#fff;
+      border:1px solid var(--line);
+      color:var(--ink);
+      font-weight:850;
+      box-shadow:var(--shadow-soft);
+      display:inline-flex;align-items:center;gap:8px;
+      white-space:nowrap;
+    }
+    .pill.primary{background:linear-gradient(180deg,#68e013,#58cc02);color:#fff;border-color:#48b801;text-shadow:0 1px 0 rgba(0,0,0,.12)}
+    .pill.blue{background:linear-gradient(180deg,#38c4ff,#1cb0f6);color:#fff;border-color:#109edf}
+    .pill.red{background:linear-gradient(180deg,#ff7474,#ff4b4b);color:#fff;border-color:#e53d3d}
+    .pill:active{transform:translateY(1px)}
+
+    .champion{
+      margin-bottom:16px;
+      padding:16px;
+      display:grid;
+      grid-template-columns:112px minmax(0,1fr) 110px;
+      gap:16px;
+      align-items:center;
+      overflow:hidden;
+      position:relative;
+    }
+    .champ-avatar-wrap{display:grid;place-items:center}
+    .champ-avatar{
+      width:96px;height:96px;border-radius:50%;
+      object-fit:cover;
+      border:6px solid #fff;
+      box-shadow:0 12px 22px rgba(31,42,68,.14),0 0 0 5px rgba(255,200,0,.16);
+      background:#f7fbff;
+    }
+    .champ-copy{min-width:0}
+    .rank-label{
+      display:inline-flex;align-items:center;gap:10px;
+      height:32px;border-radius:999px;
+      padding:0 12px;
+      background:linear-gradient(90deg,#ffc800,#ff9600);
+      color:#fff;font-weight:950;font-size:13px;
+      letter-spacing:.06em;
+      box-shadow:0 10px 20px rgba(255,150,0,.25);
+      text-transform:uppercase;
+    }
+    .champ-copy h2{
+      margin:10px 0 8px;font-size:30px;line-height:1;
+      letter-spacing:0;font-weight:950;
+      overflow-wrap:anywhere;
+    }
+    .champ-stats{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+    .score-big{
+      min-width:112px;
+      height:48px;
+      border-radius:14px;
+      background:#152033;color:#fff;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:950;font-size:26px;
+      box-shadow:0 12px 24px rgba(21,32,51,.18);
+    }
+    .score-big small{font-size:13px;margin-left:6px;color:#a9b8ca;font-weight:850}
+    .champ-meter{padding:12px;background:#f7fbff;border:1px solid var(--line);border-radius:16px}
+    .meter-head{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:12px;font-weight:850;margin-bottom:10px}
+    .meter{
+      height:16px;background:#e6eff8;border-radius:999px;overflow:hidden;box-shadow:inset 0 1px 3px rgba(31,42,68,.08);
+    }
+    .meter span{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#58cc02,#ffc800,#ff9600);transition:width .45s ease}
+    .chest-stage{display:grid;place-items:center}
+    .chest{
+      width:98px;height:86px;background:var(--asset-chest-closed) center/contain no-repeat;
+      filter:drop-shadow(0 12px 18px rgba(31,42,68,.18));
+      transition:transform .3s ease, background-image .2s ease;
+    }
+    .chest.open{background-image:var(--asset-chest-open);transform:translateY(-4px) scale(1.04)}
+    .stars{display:flex;align-items:center;gap:4px}
+    .star{
+      width:34px;height:34px;display:inline-block;position:relative;flex:0 0 auto;
+      background:var(--asset-star-empty) center/contain no-repeat;
+    }
+    .star.full{background-image:var(--asset-star-full)}
+    .star.fraction:before{
+      content:"";position:absolute;inset:0;
+      background:var(--asset-star-full) center/contain no-repeat;
+      clip-path:inset(0 calc(100% - var(--fill,0%)) 0 0);
+    }
+    .star.small{width:25px;height:25px}
+    .score-stars{display:flex;align-items:center;gap:6px;min-width:0}
+    .score-star{
+      width:38px;height:38px;display:inline-block;position:relative;flex:0 0 auto;
+      background:var(--asset-star-empty) center/contain no-repeat;
+    }
+    .score-star:before{
+      content:"";position:absolute;inset:0;
+      background:var(--asset-star-full) center/contain no-repeat;
+      clip-path:inset(0 calc(100% - var(--fill,0%)) 0 0);
+      filter:saturate(calc(.55 + var(--color,0) * .012)) brightness(calc(.92 + var(--color,0) * .002));
+    }
+    .score-chip{
+      height:38px;min-width:58px;padding:0 10px;border-radius:12px;background:#f3f7fd;
+      border:1px solid var(--line);
+      display:inline-flex;align-items:center;justify-content:center;
+      font-weight:950;color:#233148;
+    }
+
+    .leaderboard{padding:12px}
+    .list-head{
+      display:grid;grid-template-columns:58px minmax(180px, 1fr) minmax(260px, 1fr) 110px;
+      gap:12px;align-items:center;padding:4px 12px 12px;color:var(--muted);
+      font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;
+    }
+    .rows{display:flex;flex-direction:column;gap:12px}
+    .student-row{
+      display:grid;
+      grid-template-columns:58px minmax(190px,1fr) minmax(260px,1fr) auto;
+      gap:12px;align-items:center;
+      min-height:90px;padding:10px 12px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow:var(--shadow-soft);
+      position:relative;
+      overflow:hidden;
+      transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .student-row.top1{border-color:rgba(255,200,0,.65);box-shadow:0 18px 36px rgba(255,150,0,.16)}
+    .rank{
+      width:44px;height:44px;border-radius:14px;background:#f2f7fd;border:1px solid var(--line);
+      display:grid;place-items:center;font-weight:950;font-size:18px;color:#52627a;
+    }
+    .top1 .rank{background:linear-gradient(180deg,#fff4a3,#ffc800);color:#8a5200;border-color:#f0ae00}
+    .top2 .rank{background:linear-gradient(180deg,#e9f5ff,#bce7ff);color:#086fa9;border-color:#9bd9ff}
+    .top3 .rank{background:linear-gradient(180deg,#fff0e8,#ffd1bd);color:#9a4c20;border-color:#ffbd9d}
+    .student-info{display:flex;align-items:center;gap:14px;min-width:0}
+    .avatar{
+      width:58px;height:58px;border-radius:50%;
+      object-fit:cover;background:#fff;
+      border:5px solid #fff;
+      box-shadow:0 10px 20px rgba(31,42,68,.16),0 0 0 3px rgba(28,176,246,.12);
+      flex:0 0 auto;
+    }
+    .name{font-size:17px;font-weight:950;line-height:1.08;letter-spacing:0;overflow-wrap:anywhere}
+    .meta{margin-top:6px;color:var(--muted);font-size:12px;font-weight:800}
+    .star-progress{display:flex;flex-direction:column;gap:6px;min-width:0}
+    .star-progress-line{height:8px;background:#e7eef7;border-radius:999px;overflow:hidden}
+    .star-progress-line span{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#9fdc5a,#ffc800,#ff9600);transition:width .35s ease}
+    .rating{display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:0}
+    .score-actions{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+    .action-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:8px;
+      margin-top:0;
+    }
+    .mini{
+      min-height:46px;border-radius:14px;background:linear-gradient(180deg,#68e013,#58cc02);border:1px solid #48b801;color:#fff;
+      font-weight:950;font-size:13px;padding:0 12px;
+      box-shadow:0 8px 18px rgba(88,204,2,.22);
+    }
+    .mini:hover{filter:brightness(1.03)}
+    .mini.green{background:linear-gradient(180deg,#68e013,#58cc02);border-color:#48b801;color:#fff}
+    .mini.blue{background:#e8f7ff;border-color:#bfeaff;color:#086fa9}
+    .mini.gold{background:#fff8d7;border-color:#ffe797;color:#8a6400}
+    .mini:active{transform:translateY(1px)}
+
+    .sidebar{position:sticky;top:16px;display:flex;flex-direction:column;gap:12px}
+    .teacher-card{padding:16px}
+    .teacher-card h3{margin:0 0 12px;font-size:18px;font-weight:950;letter-spacing:0}
+    details.teacher-card{padding:0;overflow:hidden}
+    details.teacher-card summary{
+      list-style:none;padding:16px;font-weight:950;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+    }
+    details.teacher-card summary::-webkit-details-marker{display:none}
+    details.teacher-card summary:after{content:"+";font-size:20px;color:var(--muted)}
+    details.teacher-card[open] summary:after{content:"-"}
+    .details-body{padding:0 16px 16px}
+    .field{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}
+    .field label{font-size:12px;font-weight:900;color:#52627a}
+    .field input,.field select,.field textarea{
+      width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;
+      min-height:48px;padding:12px 13px;color:var(--ink);outline:none;font-weight:750;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+    }
+    .field textarea{min-height:72px;resize:vertical}
+    .select-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .button-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    .quick-grid .pill{justify-content:center;min-height:54px}
+    .wide{grid-column:1/-1}
+    .round-form{
+      display:grid;gap:10px;padding:12px;border:1px solid var(--line);
+      background:#f8fbff;border-radius:20px;margin-bottom:12px;
+    }
+    .toast{
+      position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);
+      background:#152033;color:#fff;font-weight:900;border-radius:999px;
+      padding:13px 18px;box-shadow:0 15px 30px rgba(21,32,51,.22);
+      opacity:0;pointer-events:none;transition:.25s ease;z-index:50;
+    }
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .status-dot{
+      width:10px;height:10px;border-radius:999px;background:#a3b3c7;display:inline-block;
+      box-shadow:0 0 0 4px rgba(163,179,199,.16);
+    }
+    .status-dot.online{background:var(--green);box-shadow:0 0 0 4px rgba(88,204,2,.16)}
+    .status-dot.local{background:var(--gold);box-shadow:0 0 0 4px rgba(255,200,0,.18)}
+    .log-list{display:flex;flex-direction:column;gap:8px;max-height:260px;overflow:auto;padding-right:4px}
+    .log-item{
+      padding:10px 11px;background:#f8fbff;border:1px solid #e6eef8;border-radius:14px;
+      font-size:12px;color:#52627a;font-weight:750;line-height:1.3;
+    }
+    .log-item strong{color:#233148}
+
+    .loading{
+      min-height:360px;display:grid;place-items:center;text-align:center;color:var(--muted);font-weight:900
+    }
+    .spinner{
+      width:46px;height:46px;border-radius:50%;
+      border:7px solid #dce8f5;border-top-color:var(--green);
+      animation:spin .8s linear infinite;margin:0 auto 14px;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @media (max-width:1180px){
+      .shell{grid-template-columns:1fr}
+      .sidebar{position:static;order:-1}
+      .champion{grid-template-columns:150px minmax(0,1fr)}
+      .chest-stage{display:none}
+      .list-head{display:none}
+      .student-row{grid-template-columns:54px minmax(180px,1fr) auto;gap:10px}
+      .star-progress{grid-column:1/-1}
+    }
+    @media (max-width:720px){
+      .app{padding:10px 10px 18px}
+      .topbar{align-items:flex-start;flex-direction:column}
+      .top-actions{width:100%;display:grid;grid-template-columns:1fr 1fr}
+      .top-actions .red{grid-column:1/-1}
+      .pill{width:100%;justify-content:center}
+      .brand h1{font-size:21px}
+      .champion{grid-template-columns:74px minmax(0,1fr);text-align:left}
+      .champ-avatar{width:68px;height:68px;border-width:4px}
+      .champ-copy h2{font-size:24px}
+      .champ-stats{justify-content:flex-start}
+      .champ-meter{display:none}
+      .leaderboard{padding:8px}
+      .rows{gap:8px}
+      .student-row{grid-template-columns:38px minmax(0,1fr) 78px;min-height:0;padding:10px;border-radius:14px}
+      .rank{width:44px;height:44px;border-radius:15px;font-size:18px}
+      .avatar{width:48px;height:48px;border-width:4px}
+      .name{font-size:16px}
+      .meta{font-size:11px}
+      .score-stars{gap:3px}
+      .score-star{width:28px;height:28px}
+      .score-chip{height:34px;min-width:48px}
+      .action-grid{grid-template-columns:1fr}
+      .score-actions{align-self:stretch;display:grid;grid-template-columns:1fr;gap:6px}
+      .rating{justify-content:stretch}
+      .score-chip{width:100%}
+      .mini{min-height:58px;padding:0 8px;font-size:18px;border-radius:16px}
+      .select-row,.button-row{grid-template-columns:1fr}
+      .quick-grid{grid-template-columns:1fr 1fr}
+      .teacher-card{padding:12px}
+      details.teacher-card summary{padding:14px}
+      .details-body{padding:0 14px 14px}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar panel">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div>
+          <h1>Star Race English Class</h1>
+          <p><span id="statusDot" class="status-dot"></span> <span id="statusText">Carregando</span></p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="pill primary" id="refreshBtn" type="button">Atualizar ranking</button>
+        <button class="pill blue" id="syncBtn" type="button">Sincronizar</button>
+        <a class="pill" href="scoreboard.html" target="_blank" rel="noopener">Tela dos alunos</a>
+        <button class="pill red" id="undoBtn" type="button">Desfazer último</button>
+      </div>
+    </header>
+
+    <div class="shell">
+      <main class="main">
+        <section class="champion panel" id="champion"></section>
+        <section class="leaderboard panel">
+          <div class="list-head">
+            <div>Rank</div><div>Aluno</div><div>Corrida do mês</div><div>Pontos</div>
+          </div>
+          <div id="rows" class="rows">
+            <div class="loading"><div><div class="spinner"></div>Preparando ranking</div></div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="sidebar">
+        <section class="teacher-card panel">
+          <h3>Pontuação rápida</h3>
+          <div class="field">
+            <label for="studentSelect">Aluno</label>
+            <select id="studentSelect"></select>
+          </div>
+          <div class="quick-grid">
+            <button class="pill primary" type="button" data-quick="waiting">Sentado +1</button>
+            <button class="pill blue" type="button" data-quick="silent">Silêncio +1</button>
+            <button class="pill blue" type="button" data-quick="english">Inglês +1</button>
+            <button class="pill primary" type="button" data-quick="understanding">Entendeu +1</button>
+          </div>
+        </section>
+
+        <details class="teacher-card panel">
+          <summary>Rodada com pódio</summary>
+          <div class="details-body">
+          <div class="round-form">
+            <div class="field">
+              <label for="roundCategory">Tipo</label>
+              <select id="roundCategory">
+                <option value="cutting">Recorte</option>
+                <option value="activity">Atividade do dia</option>
+              </select>
+            </div>
+            <div class="select-row">
+              <div class="field">
+                <label for="firstPlace">1º lugar</label>
+                <select id="firstPlace"></select>
+              </div>
+              <div class="field">
+                <label for="secondPlace">2º lugar</label>
+                <select id="secondPlace"></select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="thirdPlace">3º lugar</label>
+              <select id="thirdPlace"></select>
+            </div>
+            <button class="pill primary wide" type="button" id="awardRoundBtn">Aplicar rodada</button>
+          </div>
+          </div>
+        </details>
+
+        <details class="teacher-card panel">
+          <summary>Todos</summary>
+          <div class="details-body">
+          <div class="button-row">
+            <button class="pill primary" type="button" id="awardEveryoneBtn">Todos +1</button>
+            <button class="pill" type="button" data-all="waiting">Todos sentados +1</button>
+            <button class="pill" type="button" data-all="silent">Todos em silêncio +1</button>
+            <button class="pill red" type="button" id="resetMonthBtn">Resetar todos</button>
+          </div>
+          </div>
+        </details>
+
+        <details class="teacher-card panel">
+          <summary>Ajuste manual</summary>
+          <div class="details-body">
+          <div class="field">
+            <label for="manualPoints">Pontos</label>
+            <input id="manualPoints" type="number" min="-50" max="50" step="1" value="1">
+          </div>
+          <div class="field">
+            <label for="manualNote">Observação</label>
+            <textarea id="manualNote" placeholder="Opcional"></textarea>
+          </div>
+          <button class="pill blue wide" type="button" id="manualBtn">Lançar manual</button>
+          </div>
+        </details>
+
+        <details class="teacher-card panel">
+          <summary>Configuração</summary>
+          <div class="details-body">
+          <div class="field">
+            <label for="goalInput">Meta do mês</label>
+            <input id="goalInput" type="number" min="10" max="500" step="1" value="60">
+          </div>
+          <button class="pill primary wide" type="button" id="saveGoalBtn">Salvar meta</button>
+          </div>
+        </details>
+
+        <details class="teacher-card panel">
+          <summary>Últimos registros</summary>
+          <div class="details-body">
+          <div id="logList" class="log-list"></div>
+          </div>
+        </details>
+      </aside>
+    </div>
+  </div>
+
+  <iframe name="hiddenPostFrame" id="hiddenPostFrame" style="display:none"></iframe>
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const APP = {
+      BACKEND_URL: "https://script.google.com/macros/s/AKfycbzD-JuH-rfmq98rVGro5vqPBMGOdgHOTw-U2ZnV2g3h_mgxCQw4xTUQmFBrlMYNQR-mJw/exec",
+      LOCAL_STORAGE_KEY: "starRaceEnglishClassV1",
+      DEFAULT_MONTH_GOAL: 60,
+      STUDENTS: [
+  {
+    "id": "STU001",
+    "name": "Anna Beatriz Rodrigues de Souza Guerra",
+    "photo": "Assets/students/anna-beatriz-rodrigues-de-souza-guerra.svg",
+    "active": true
+  },
+  {
+    "id": "STU002",
+    "name": "Davi Roberto dos Santos Silva",
+    "photo": "Assets/students/davi-roberto-dos-santos-silva.svg",
+    "active": true
+  },
+  {
+    "id": "STU003",
+    "name": "Helena Oldsey da Paixão Santos",
+    "photo": "Assets/students/helena-oldsey-da-paixao-santos.svg",
+    "active": true
+  },
+  {
+    "id": "STU004",
+    "name": "Isadora Ulisses Novaes Angelim",
+    "photo": "Assets/students/isadora-ulisses-novaes-angelim.svg",
+    "active": true
+  },
+  {
+    "id": "STU005",
+    "name": "Júlia Beatriz da Silva",
+    "photo": "Assets/students/julia-beatriz-da-silva.svg",
+    "active": true
+  },
+  {
+    "id": "STU006",
+    "name": "Letícia Santos Sena",
+    "photo": "Assets/students/leticia-santos-sena.svg",
+    "active": true
+  },
+  {
+    "id": "STU007",
+    "name": "Luiz Henrique Lins de Albuquerque Maranhão",
+    "photo": "Assets/students/luiz-henrique-lins-de-albuquerque-maranhao.svg",
+    "active": true
+  },
+  {
+    "id": "STU008",
+    "name": "Maria Alice Vasconcelos Silva",
+    "photo": "Assets/students/maria-alice-vasconcelos-silva.svg",
+    "active": true
+  },
+  {
+    "id": "STU009",
+    "name": "Mariana Vasconcelos de Souza",
+    "photo": "Assets/students/mariana-vasconcelos-de-souza.svg",
+    "active": true
+  },
+  {
+    "id": "STU010",
+    "name": "Maya Tenório Mascarenhas",
+    "photo": "Assets/students/maya-tenorio-mascarenhas.svg",
+    "active": true
+  },
+  {
+    "id": "STU011",
+    "name": "Pedro Nathan de Vasconcelos Silva",
+    "photo": "Assets/students/pedro-nathan-de-vasconcelos-silva.svg",
+    "active": true
+  },
+  {
+    "id": "STU012",
+    "name": "Sophia Bezerra Soares",
+    "photo": "Assets/students/sophia-bezerra-soares.svg",
+    "active": true
+  },
+  {
+    "id": "STU013",
+    "name": "Yasmim Gomes Paes Barreto",
+    "photo": "Assets/students/yasmim-gomes-paes-barreto.svg",
+    "active": true
+  }
+]
+    };
+
+    const CATEGORY_LABELS = {
+      waiting: "Sentado esperando comando",
+      silent: "Silêncio enquanto o professor explica",
+      cutting: "Recorte",
+      activity: "Atividade do dia",
+      english: "Produção em inglês",
+      understanding: "Compreensão",
+      everyone: "Todos +1",
+      manual: "Manual"
+    };
+
+    const state = {
+      students: [],
+      rows: [],
+      events: [],
+      goal: APP.DEFAULT_MONTH_GOAL,
+      monthKey: monthKey(new Date()),
+      todayPct: todayPercent(),
+      backendReady: false,
+      loading: true
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    function monthKey(date){
+      const y = date.getFullYear();
+      const m = String(date.getMonth()+1).padStart(2,"0");
+      return `${y}-${m}`;
+    }
+
+    function todayPercent(){
+      const d = new Date();
+      const last = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate();
+      return Math.min(100, Math.max(0, (d.getDate()/last)*100));
+    }
+
+    function isBackendConfigured(){
+      return APP.BACKEND_URL && !APP.BACKEND_URL.includes("COLE_AQUI");
+    }
+
+    function normalizeName(name){
+      return String(name || "").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+    }
+
+    function firstName(name){
+      const parts = String(name || "").split(" ").filter(Boolean);
+      return parts[0] || name;
+    }
+
+    function safeText(str){
+      return String(str ?? "").replace(/[&<>"']/g, (m) => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    function toast(message){
+      const el = $("toast");
+      el.textContent = message;
+      el.classList.add("show");
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => el.classList.remove("show"), 1800);
+    }
+
+    function setStatus(mode, text){
+      const dot = $("statusDot");
+      dot.className = "status-dot";
+      if(mode) dot.classList.add(mode);
+      $("statusText").textContent = text;
+    }
+
+    function jsonp(params){
+      return new Promise((resolve,reject)=>{
+        if(!isBackendConfigured()) return reject(new Error("Backend não configurado"));
+        const cb = "jsonp_cb_" + Date.now() + "_" + Math.floor(Math.random()*99999);
+        const url = new URL(APP.BACKEND_URL);
+        Object.entries(params || {}).forEach(([k,v]) => url.searchParams.set(k,v));
+        url.searchParams.set("callback", cb);
+        const script = document.createElement("script");
+        const timer = setTimeout(()=>{
+          cleanup();
+          reject(new Error("Tempo esgotado"));
+        }, 12000);
+        function cleanup(){
+          clearTimeout(timer);
+          delete window[cb];
+          script.remove();
+        }
+        window[cb] = (data) => {
+          cleanup();
+          resolve(data);
+        };
+        script.onerror = () => {
+          cleanup();
+          reject(new Error("Falha ao carregar dados"));
+        };
+        script.src = url.toString();
+        document.body.appendChild(script);
+      });
+    }
+
+    function post(params){
+      if(!isBackendConfigured()){
+        localPost(params);
+        return;
+      }
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = APP.BACKEND_URL;
+      form.target = "hiddenPostFrame";
+      form.style.display = "none";
+      Object.entries(params).forEach(([key,value]) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = Array.isArray(value) ? value.join(",") : String(value ?? "");
+        form.appendChild(input);
+      });
+      document.body.appendChild(form);
+      form.submit();
+      form.remove();
+      setTimeout(loadData, 700);
+    }
+
+    function getLocal(){
+      const raw = localStorage.getItem(APP.LOCAL_STORAGE_KEY);
+      if(raw){
+        try{return JSON.parse(raw)}catch(e){}
+      }
+      return {
+        students: APP.STUDENTS,
+        points: [],
+        goal: APP.DEFAULT_MONTH_GOAL
+      };
+    }
+
+    function setLocal(data){
+      localStorage.setItem(APP.LOCAL_STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function localPost(params){
+      const data = getLocal();
+      const now = new Date().toISOString();
+      const op = params.operation;
+
+      if(op === "award"){
+        const ids = String(params.studentIds || "").split(",").filter(Boolean);
+        ids.forEach(id => {
+          const st = data.students.find(s => s.id === id);
+          if(st){
+            data.points.push({
+              timestamp: now,
+              studentId: st.id,
+              studentName: st.name,
+              category: params.category || "manual",
+              points: Number(params.points || 0),
+              note: params.note || "",
+              monthKey: state.monthKey
+            });
+          }
+        });
+      }
+
+      if(op === "round"){
+        const all = data.students.filter(s => s.active !== false);
+        const rankMap = new Map([
+          [params.firstId, 4],
+          [params.secondId, 3],
+          [params.thirdId, 2]
+        ]);
+        all.forEach(st => {
+          data.points.push({
+            timestamp: now,
+            studentId: st.id,
+            studentName: st.name,
+            category: params.category || "activity",
+            points: rankMap.get(st.id) || 1,
+            note: "Rodada com pódio",
+            monthKey: state.monthKey
+          });
+        });
+      }
+
+      if(op === "setGoal"){
+        data.goal = Number(params.goal || APP.DEFAULT_MONTH_GOAL);
+      }
+
+      if(op === "undoLast"){
+        data.points.pop();
+      }
+
+      if(op === "resetMonth"){
+        data.points = data.points.filter(p => p.monthKey !== (params.monthKey || state.monthKey));
+      }
+
+      setLocal(data);
+      loadLocalData();
+      toast("Salvo no modo local");
+    }
+
+    async function loadData(){
+      state.loading = true;
+      if(!isBackendConfigured()){
+        loadLocalData();
+        return;
+      }
+      try{
+        const data = await jsonp({action:"summary", monthKey:state.monthKey});
+        applyData(data);
+        setStatus("online","Conectado ao Google Planilhas");
+      }catch(err){
+        loadLocalData();
+        setStatus("local","Modo local");
+      }
+    }
+
+    function loadLocalData(){
+      const data = getLocal();
+      const totals = new Map();
+      const events = data.points.filter(p => p.monthKey === state.monthKey);
+      data.students.forEach(st => totals.set(st.id, 0));
+      events.forEach(p => totals.set(p.studentId, (totals.get(p.studentId) || 0) + Number(p.points || 0)));
+      const rows = data.students
+        .filter(s => s.active !== false)
+        .map(s => ({...s, score: totals.get(s.id) || 0}))
+        .sort(sortRows)
+        .map((s,i)=>({...s, rank:i+1}));
+      applyData({
+        ok:true,
+        source:"local",
+        students:data.students,
+        rows,
+        events:events.slice(-30).reverse(),
+        monthGoal:data.goal || APP.DEFAULT_MONTH_GOAL,
+        monthKey:state.monthKey,
+        todayPct:todayPercent()
+      });
+      setStatus("local","Modo local");
+    }
+
+    function applyData(data){
+      state.students = data.students || APP.STUDENTS;
+      state.rows = data.rows || [];
+      state.events = data.events || [];
+      state.goal = Number(data.monthGoal || APP.DEFAULT_MONTH_GOAL);
+      state.monthKey = data.monthKey || state.monthKey;
+      state.todayPct = Number(data.todayPct || todayPercent());
+      state.backendReady = data.source !== "local";
+      state.loading = false;
+      $("goalInput").value = state.goal;
+      render();
+    }
+
+    function sortRows(a,b){
+      return (Number(b.score || 0) - Number(a.score || 0)) || normalizeName(a.name).localeCompare(normalizeName(b.name));
+    }
+
+    function render(){
+      renderSelectors();
+      renderChampion();
+      renderRows();
+      renderLogs();
+    }
+
+    function renderSelectors(){
+      const options = state.students
+        .filter(s => s.active !== false)
+        .slice()
+        .sort((a,b)=>normalizeName(a.name).localeCompare(normalizeName(b.name)))
+        .map(s => `<option value="${safeText(s.id)}">${safeText(s.name)}</option>`)
+        .join("");
+
+      ["studentSelect","firstPlace","secondPlace","thirdPlace"].forEach(id => {
+        const el = $(id);
+        const current = el.value;
+        el.innerHTML = `<option value="">Selecionar</option>${options}`;
+        if(current) el.value = current;
+      });
+    }
+
+    function renderChampion(){
+      const top = state.rows[0];
+      if(!top){
+        $("champion").innerHTML = "";
+        return;
+      }
+      const progress = Math.min(100, Math.max(0, Math.round((Number(top.score || 0) / state.goal) * 100)));
+      $("champion").innerHTML = `
+        <div class="champ-avatar-wrap">
+          <img class="champ-avatar" src="${safeText(top.photo)}" alt="${safeText(top.name)}">
+        </div>
+        <div class="champ-copy">
+          <div class="rank-label">Primeiro lugar</div>
+          <h2>${safeText(top.name)}</h2>
+          <div class="champ-stats">
+            ${progressStars(progress)}
+            <div class="score-big">${Number(top.score || 0)}<small>pts</small></div>
+          </div>
+          <div class="champ-meter" style="margin-top:16px">
+            <div class="meter-head"><span>Progresso até o baú</span><span>${progress}%</span></div>
+            <div class="meter"><span style="width:${progress}%"></span></div>
+          </div>
+        </div>
+        <div class="chest-stage">
+          <div class="chest ${progress >= 100 ? "open" : ""}"></div>
+        </div>
+      `;
+    }
+
+    function progressStars(progress){
+      const safeProgress = Math.min(100, Math.max(0, Number(progress || 0)));
+      const stars = Array.from({length:5}, (_, index) => {
+        const fill = Math.min(100, Math.max(0, (safeProgress - index * 20) * 5));
+        return `<span class="score-star" style="--fill:${fill}%;--color:${safeProgress}"></span>`;
+      }).join("");
+      return `<div class="score-stars" aria-label="${safeProgress}% da meta">${stars}</div>`;
+    }
+
+    function renderRows(){
+      if(state.loading){
+        $("rows").innerHTML = `<div class="loading"><div><div class="spinner"></div>Preparando ranking</div></div>`;
+        return;
+      }
+      $("rows").innerHTML = state.rows.map(row => {
+        const score = Number(row.score || 0);
+        const progress = Math.min(100, Math.max(0, Math.round((score / state.goal) * 100)));
+        const rankClass = row.rank <= 3 ? `top${row.rank}` : "";
+        return `
+          <article class="student-row ${rankClass}" style="--progress:${progress};--today:${state.todayPct}%">
+            <div class="rank">${row.rank}</div>
+            <div class="student-info">
+              <img class="avatar" src="${safeText(row.photo)}" alt="${safeText(row.name)}">
+              <div>
+                <div class="name">${safeText(row.name)}</div>
+                <div class="meta">${progress}% da meta mensal</div>
+              </div>
+            </div>
+            <div class="star-progress">
+              ${progressStars(progress)}
+              <div class="star-progress-line"><span style="width:${progress}%"></span></div>
+            </div>
+            <div class="score-actions">
+              <div class="rating">
+                <span class="score-chip">${score}</span>
+              </div>
+              <div class="action-grid">
+                <button class="mini green" type="button" onclick="awardOne('${safeText(row.id)}','waiting',1)">+1</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderLogs(){
+      const log = $("logList");
+      if(!state.events.length){
+        log.innerHTML = `<div class="log-item">Sem registros neste mês.</div>`;
+        return;
+      }
+      log.innerHTML = state.events.slice(0,30).map(e => {
+        const d = e.timestamp ? new Date(e.timestamp) : null;
+        const time = d && !Number.isNaN(d.getTime()) ? d.toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}) : "";
+        const cat = CATEGORY_LABELS[e.category] || e.category || "Registro";
+        const pts = Number(e.points || 0);
+        return `<div class="log-item"><strong>${safeText(firstName(e.studentName || ""))}</strong> ${pts > 0 ? "+" : ""}${pts} ponto(s) em ${safeText(cat)} <br>${safeText(time)}</div>`;
+      }).join("");
+    }
+
+    function awardOne(studentId, category, points){
+      post({
+        operation:"award",
+        studentIds:studentId,
+        category,
+        points,
+        note:""
+      });
+      optimisticAward([studentId], Number(points || 0), category);
+    }
+
+    function awardSelected(category, points){
+      const id = $("studentSelect").value;
+      if(!id){toast("Selecione um aluno");return}
+      awardOne(id, category, points);
+    }
+
+    function awardAll(category, points){
+      const ids = state.students.filter(s=>s.active !== false).map(s=>s.id);
+      if(!ids.length){toast("Nenhum aluno ativo");return}
+      post({
+        operation:"award",
+        studentIds:ids.join(","),
+        category,
+        points,
+        note:""
+      });
+      optimisticAward(ids, Number(points || 0), category);
+    }
+
+    function awardRound(){
+      const firstId = $("firstPlace").value;
+      const secondId = $("secondPlace").value;
+      const thirdId = $("thirdPlace").value;
+      const chosen = [firstId, secondId, thirdId].filter(Boolean);
+      if(new Set(chosen).size !== chosen.length){toast("Não repita aluno no pódio");return}
+      post({
+        operation:"round",
+        category:$("roundCategory").value,
+        firstId,
+        secondId,
+        thirdId
+      });
+      const rankMap = new Map([[firstId,4],[secondId,3],[thirdId,2]]);
+      const ids = state.students.filter(s=>s.active !== false).map(s=>s.id);
+      optimisticRound(ids, rankMap, $("roundCategory").value);
+    }
+
+    function manualAward(){
+      const id = $("studentSelect").value;
+      const pts = Number($("manualPoints").value || 0);
+      if(!id){toast("Selecione um aluno");return}
+      if(!pts){toast("Informe os pontos");return}
+      post({
+        operation:"award",
+        studentIds:id,
+        category:"manual",
+        points:pts,
+        note:$("manualNote").value || ""
+      });
+      optimisticAward([id], pts, "manual");
+      $("manualNote").value = "";
+    }
+
+    function optimisticAward(ids, points, category){
+      const now = new Date().toISOString();
+      state.rows = state.rows.map(row => ids.includes(row.id) ? {...row, score:Number(row.score || 0)+points} : row)
+        .sort(sortRows).map((row,i)=>({...row,rank:i+1}));
+      ids.forEach(id => {
+        const st = state.students.find(s=>s.id===id);
+        if(st){
+          state.events.unshift({timestamp:now, studentId:id, studentName:st.name, category, points});
+        }
+      });
+      render();
+      toast("Pontuação lançada");
+    }
+
+    function optimisticRound(ids, rankMap, category){
+      const now = new Date().toISOString();
+      state.rows = state.rows.map(row => {
+        const pts = ids.includes(row.id) ? (rankMap.get(row.id) || 1) : 0;
+        return {...row, score:Number(row.score || 0)+pts};
+      }).sort(sortRows).map((row,i)=>({...row,rank:i+1}));
+      ids.forEach(id => {
+        const st = state.students.find(s=>s.id===id);
+        if(st){
+          state.events.unshift({timestamp:now, studentId:id, studentName:st.name, category, points:rankMap.get(id) || 1});
+        }
+      });
+      render();
+      toast("Rodada lançada");
+    }
+
+    function saveGoal(){
+      const goal = Number($("goalInput").value || APP.DEFAULT_MONTH_GOAL);
+      if(goal < 10){toast("Meta mínima: 10");return}
+      state.goal = goal;
+      post({operation:"setGoal", goal});
+      render();
+      toast("Meta atualizada");
+    }
+
+    function undoLast(){
+      post({operation:"undoLast"});
+      setTimeout(loadData, 500);
+      toast("Último registro removido");
+    }
+
+    function resetMonth(){
+      if(!confirm("Resetar todos os pontos deste mês?")) return;
+      post({operation:"resetMonth", monthKey:state.monthKey});
+      state.rows = state.rows.map(row => ({...row, score:0})).sort(sortRows).map((row,i)=>({...row,rank:i+1}));
+      state.events = [];
+      render();
+      setTimeout(loadData, 700);
+      toast("Pontuação do mês resetada");
+    }
+
+    document.addEventListener("click", (ev) => {
+      const quick = ev.target.closest("[data-quick]");
+      if(quick) awardSelected(quick.dataset.quick, 1);
+
+      const all = ev.target.closest("[data-all]");
+      if(all) awardAll(all.dataset.all, 1);
+    });
+
+    $("awardRoundBtn").addEventListener("click", awardRound);
+    $("manualBtn").addEventListener("click", manualAward);
+    $("saveGoalBtn").addEventListener("click", saveGoal);
+    $("refreshBtn").addEventListener("click", loadData);
+    $("syncBtn").addEventListener("click", loadData);
+    $("undoBtn").addEventListener("click", undoLast);
+    $("awardEveryoneBtn").addEventListener("click", () => awardAll("everyone", 1));
+    $("resetMonthBtn").addEventListener("click", resetMonth);
+
+    loadData();
+  </script>
+</body>
+</html>
