@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 190">
+  <defs>
+    <linearGradient id="wood" x1="20" y1="30" x2="190" y2="165"><stop offset="0" stop-color="#a64b10"/><stop offset=".52" stop-color="#d46b1e"/><stop offset="1" stop-color="#7e350e"/></linearGradient>
+    <linearGradient id="gold" x1="20" y1="12" x2="200" y2="170"><stop offset="0" stop-color="#fff07a"/><stop offset=".45" stop-color="#ffc400"/><stop offset="1" stop-color="#e08100"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="60%" r="55%"><stop offset="0" stop-color="#fff9b0"/><stop offset=".5" stop-color="#ffd21f" stop-opacity=".78"/><stop offset="1" stop-color="#ffd21f" stop-opacity="0"/></radialGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#5c3400" flood-opacity=".25"/></filter>
+  </defs>
+  <g filter="url(#sh)">
+    <path d="M38 80L71 12h112c15 0 24 16 16 29l-40 64H52c-14 0-21-13-14-25z" fill="url(#wood)" stroke="#6c2f0d" stroke-width="4"/>
+    <path d="M41 75L71 12h20L61 86zM175 12h20l-38 93h-22z" fill="url(#gold)"/>
+    <path d="M24 86h172v77c0 10-8 18-18 18H42c-10 0-18-8-18-18V86z" fill="url(#wood)" stroke="#6c2f0d" stroke-width="4"/>
+    <ellipse cx="110" cy="104" rx="93" ry="58" fill="url(#glow)"/>
+    <path d="M24 84h172v28H24zM36 86h22v95H36zM162 86h22v95h-22zM24 155h172v28H24z" fill="url(#gold)"/>
+    <rect x="88" y="103" width="44" height="52" rx="9" fill="url(#gold)" stroke="#c36b00" stroke-width="4"/>
+    <path d="M110 121c-6 0-11 5-11 11 0 4 2 7 5 9l-5 11h22l-5-11c3-2 5-5 5-9 0-6-5-11-11-11z" fill="#5d2a0a"/>
+    <path d="M51 129h118M42 151h136" stroke="#74310c" stroke-width="3" opacity=".35"/>
+    <path d="M78 45h88" stroke="#fff" stroke-width="7" opacity=".16" stroke-linecap="round"/>
+    <path d="M68 94h84" stroke="#fff7a6" stroke-width="8" opacity=".75" stroke-linecap="round"/>
+    <path d="M61 59l5 11 11 5-11 5-5 11-5-11-11-5 11-5 5-11zM174 76l4 8 8 4-8 4-4 8-4-8-8-4 8-4 4-8z" fill="#fffef0"/>
+  </g>
+</svg>
