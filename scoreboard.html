@@ -166,7 +166,7 @@
 
   <script>
     const APP = {
-      BACKEND_URL: "https://script.google.com/macros/s/AKfycbyz6nRrfTdz8wwR23LU3S15pbHxh2x0R-KCHM-aagrvSpz2RAWlfO_vy2Tmu8G8jyYAZw/exec",
+      BACKEND_URL: "https://script.google.com/macros/s/AKfycbz9oIJKKW2e5eaDM5fIqoCkONPs7IY0vev1z_zVWT4OCq4dW6n4KP5jrOCZTrU578qRmw/exec",
       LOCAL_STORAGE_KEY: "starRaceEnglishClassV1",
       DEFAULT_MONTH_GOAL: 60,
       STUDENTS: [
@@ -212,6 +212,10 @@
       return String(str ?? "").replace(/[&<>"']/g, (m) => ({
         "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
       }[m]));
+    }
+
+    function photoSrc(photo){
+      return String(photo || "").replace(/^(Assets\/students\/.+)\.svg$/i, "$1.png");
     }
 
     function jsonp(params){
@@ -310,7 +314,7 @@
         return `
           <article class="row ${top} ${complete}">
             <div class="rank">${row.rank}</div>
-            <img class="avatar" src="${safeText(row.photo)}" alt="${safeText(row.name)}">
+            <img class="avatar" src="${safeText(photoSrc(row.photo))}" alt="${safeText(row.name)}">
             <div class="name">${safeText(row.name)}</div>
             <div class="progress">
               <div class="stars" aria-label="${progress}% da meta">${progressStars(progress)}</div>

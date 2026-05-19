@@ -476,7 +476,7 @@
 
   <script>
     const APP = {
-      BACKEND_URL: "https://script.google.com/macros/s/AKfycbyz6nRrfTdz8wwR23LU3S15pbHxh2x0R-KCHM-aagrvSpz2RAWlfO_vy2Tmu8G8jyYAZw/exec",
+      BACKEND_URL: "https://script.google.com/macros/s/AKfycbz9oIJKKW2e5eaDM5fIqoCkONPs7IY0vev1z_zVWT4OCq4dW6n4KP5jrOCZTrU578qRmw/exec",
       LOCAL_STORAGE_KEY: "starRaceEnglishClassV1",
       DEFAULT_MONTH_GOAL: 60,
       STUDENTS: [
@@ -616,6 +616,10 @@
       }[m]));
     }
 
+    function photoSrc(photo){
+      return String(photo || "").replace(/^(Assets\/students\/.+)\.svg$/i, "$1.png");
+    }
+
     function toast(message){
       const el = $("toast");
       el.textContent = message;
@@ -666,7 +670,6 @@
         localPost(params);
         return;
       }
-      const frame = $("hiddenPostFrame");
       const form = document.createElement("form");
       form.method = "POST";
       form.action = APP.BACKEND_URL;
@@ -680,17 +683,9 @@
         form.appendChild(input);
       });
       document.body.appendChild(form);
-      let refreshed = false;
-      const refreshAfterPost = () => {
-        if(refreshed) return;
-        refreshed = true;
-        frame.onload = null;
-        setTimeout(loadData, 250);
-      };
-      frame.onload = refreshAfterPost;
       form.submit();
       form.remove();
-      setTimeout(refreshAfterPost, 3500);
+      setTimeout(loadData, 6000);
     }
 
     function getLocal(){
@@ -858,7 +853,7 @@
       const progress = Math.min(100, Math.max(0, Math.round((Number(top.score || 0) / state.goal) * 100)));
       $("champion").innerHTML = `
         <div class="champ-avatar-wrap">
-          <img class="champ-avatar" src="${safeText(top.photo)}" alt="${safeText(top.name)}">
+          <img class="champ-avatar" src="${safeText(photoSrc(top.photo))}" alt="${safeText(top.name)}">
         </div>
         <div class="champ-copy">
           <div class="rank-label">Primeiro lugar</div>
@@ -900,7 +895,7 @@
           <article class="student-row ${rankClass}" style="--progress:${progress};--today:${state.todayPct}%">
             <div class="rank">${row.rank}</div>
             <div class="student-info">
-              <img class="avatar" src="${safeText(row.photo)}" alt="${safeText(row.name)}">
+              <img class="avatar" src="${safeText(photoSrc(row.photo))}" alt="${safeText(row.name)}">
               <div>
                 <div class="name">${safeText(row.name)}</div>
                 <div class="meta">${progress}% da meta mensal</div>
