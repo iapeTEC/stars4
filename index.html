@@ -188,14 +188,14 @@
 
     .leaderboard{padding:12px}
     .list-head{
-      display:grid;grid-template-columns:58px minmax(180px, 1fr) minmax(260px, 1fr) 110px;
+      display:grid;grid-template-columns:58px minmax(180px, 1fr) minmax(260px, 1fr) 170px;
       gap:12px;align-items:center;padding:4px 12px 12px;color:var(--muted);
       font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;
     }
     .rows{display:flex;flex-direction:column;gap:12px}
     .student-row{
       display:grid;
-      grid-template-columns:58px minmax(190px,1fr) minmax(260px,1fr) auto;
+      grid-template-columns:58px minmax(190px,1fr) minmax(260px,1fr) 170px;
       gap:12px;align-items:center;
       min-height:90px;padding:10px 12px;
       background:#fff;
@@ -228,10 +228,10 @@
     .star-progress-line{height:8px;background:#e7eef7;border-radius:999px;overflow:hidden}
     .star-progress-line span{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#9fdc5a,#ffc800,#ff9600);transition:width .35s ease}
     .rating{display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:0}
-    .score-actions{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+    .score-actions{display:grid;grid-template-columns:58px 104px;align-items:center;gap:8px;justify-content:end}
     .action-grid{
       display:grid;
-      grid-template-columns:1fr;
+      grid-template-columns:1fr 1fr;
       gap:8px;
       margin-top:0;
     }
@@ -242,6 +242,7 @@
     }
     .mini:hover{filter:brightness(1.03)}
     .mini.green{background:linear-gradient(180deg,#68e013,#58cc02);border-color:#48b801;color:#fff}
+    .mini.red{background:linear-gradient(180deg,#ff7474,#ff4b4b);border-color:#e53d3d;color:#fff;box-shadow:0 8px 18px rgba(255,75,75,.22)}
     .mini.blue{background:#e8f7ff;border-color:#bfeaff;color:#086fa9}
     .mini.gold{background:#fff8d7;border-color:#ffe797;color:#8a6400}
     .mini:active{transform:translateY(1px)}
@@ -309,7 +310,7 @@
       .champion{grid-template-columns:150px minmax(0,1fr)}
       .chest-stage{display:none}
       .list-head{display:none}
-      .student-row{grid-template-columns:54px minmax(180px,1fr) auto;gap:10px}
+      .student-row{grid-template-columns:54px minmax(180px,1fr) 170px;gap:10px}
       .star-progress{grid-column:1/-1}
     }
     @media (max-width:720px){
@@ -326,7 +327,7 @@
       .champ-meter{display:none}
       .leaderboard{padding:8px}
       .rows{gap:8px}
-      .student-row{grid-template-columns:38px minmax(0,1fr) 78px;min-height:0;padding:10px;border-radius:14px}
+      .student-row{grid-template-columns:38px minmax(0,1fr);min-height:0;padding:10px;border-radius:14px}
       .rank{width:44px;height:44px;border-radius:15px;font-size:18px}
       .avatar{width:48px;height:48px;border-width:4px}
       .name{font-size:16px}
@@ -334,8 +335,8 @@
       .score-stars{gap:3px}
       .score-star{width:28px;height:28px}
       .score-chip{height:34px;min-width:48px}
-      .action-grid{grid-template-columns:1fr}
-      .score-actions{align-self:stretch;display:grid;grid-template-columns:1fr;gap:6px}
+      .action-grid{grid-template-columns:1fr 1fr}
+      .score-actions{grid-column:1/-1;align-self:stretch;display:grid;grid-template-columns:72px minmax(0,1fr);gap:8px}
       .rating{justify-content:stretch}
       .score-chip{width:100%}
       .mini{min-height:58px;padding:0 8px;font-size:18px;border-radius:16px}
@@ -911,6 +912,7 @@
               </div>
               <div class="action-grid">
                 <button class="mini green" type="button" onclick="awardOne('${safeText(row.id)}','waiting',1)">+1</button>
+                <button class="mini red" type="button" onclick="awardOne('${safeText(row.id)}','manual',-1)">-1</button>
               </div>
             </div>
           </article>
