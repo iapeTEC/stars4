@@ -25,10 +25,10 @@
       --shadow:0 14px 30px rgba(31,42,68,.10);
       --shadow-soft:0 8px 18px rgba(31,42,68,.08);
       --radius:18px;
-      --asset-star-full:url("Assets/star-full.png");
-      --asset-star-empty:url("Assets/star-empty.png");
-      --asset-chest-closed:url("Assets/chest-closed.png");
-      --asset-chest-open:url("Assets/chest-open.png");
+      --asset-star-full:url("Assets/star-full.svg");
+      --asset-star-empty:url("Assets/star-empty.svg");
+      --asset-chest-closed:url("Assets/chest-closed.svg");
+      --asset-chest-open:url("Assets/chest-open.svg");
     }
 
     *{box-sizing:border-box}
@@ -476,7 +476,7 @@
 
   <script>
     const APP = {
-      BACKEND_URL: "https://script.google.com/macros/s/AKfycbxCWTJ4fiUh0LoXOrH9xChGyRUl97Fe-nbmgR60Ra-v1FyvgAFu1ZmEVv59zGNP--co-Q/exec",
+      BACKEND_URL: "https://script.google.com/macros/s/AKfycbyz6nRrfTdz8wwR23LU3S15pbHxh2x0R-KCHM-aagrvSpz2RAWlfO_vy2Tmu8G8jyYAZw/exec",
       LOCAL_STORAGE_KEY: "starRaceEnglishClassV1",
       DEFAULT_MONTH_GOAL: 60,
       STUDENTS: [
@@ -666,6 +666,7 @@
         localPost(params);
         return;
       }
+      const frame = $("hiddenPostFrame");
       const form = document.createElement("form");
       form.method = "POST";
       form.action = APP.BACKEND_URL;
@@ -679,9 +680,17 @@
         form.appendChild(input);
       });
       document.body.appendChild(form);
+      let refreshed = false;
+      const refreshAfterPost = () => {
+        if(refreshed) return;
+        refreshed = true;
+        frame.onload = null;
+        setTimeout(loadData, 250);
+      };
+      frame.onload = refreshAfterPost;
       form.submit();
       form.remove();
-      setTimeout(loadData, 700);
+      setTimeout(refreshAfterPost, 3500);
     }
 
     function getLocal(){
